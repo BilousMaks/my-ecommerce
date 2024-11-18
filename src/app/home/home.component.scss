@@ -1,0 +1,157 @@
+/* Загальні стилі для контейнера */
+.home-container {
+    padding: 20px;
+  }
+  
+  /* Секція слайдера */
+  .promo-section {
+    margin-bottom: 40px;
+  }
+  
+  .promo-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+  }
+  
+  .promo-slide {
+    width: 300px;
+    text-align: center;
+  }
+  
+  .promo-slide img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  /* Секція категорій */
+  .categories {
+    margin-bottom: 40px;
+  }
+  
+  .category-list {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .category-item {
+    width: 200px;
+    text-align: center;
+  }
+  
+  .category-item img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .category-item h3 {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  .category-item .btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 10px;
+    background-color: #ff6f61;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  /* Популярні продукти */
+  .popular-products {
+    margin-bottom: 40px;
+  }
+  
+  .product-list {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .product-item {
+    width: 200px;
+    text-align: center;
+  }
+  
+  .product-item img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .product-item h3 {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  .product-item p {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .product-item .btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 10px;
+    background-color: #ff6f61;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  /* Відгуки клієнтів */
+  .customer-reviews {
+    margin-bottom: 40px;
+  }
+  
+  .review-list {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .review-item {
+    width: 250px;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-item p {
+    font-size: 16px;
+    color: #555;
+    font-style: italic;
+  }
+  
+  .review-item p:last-child {
+    text-align: right;
+    font-weight: bold;
+  }
+  
+  /* Підписка на новини */
+  .newsletter {
+    text-align: center;
+  }
+  
+  .newsletter-form {
+    display: inline-flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .newsletter-form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .newsletter-form button {
+    padding: 10px 20px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
