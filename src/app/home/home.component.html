@@ -1,103 +1,59 @@
 <!-- Головний контейнер сторінки -->
 <div class="home-container">
 
-    <!-- Секція з привітанням -->
-    <header class="hero">
-      <h1>Ласкаво просимо до нашого онлайн магазину</h1>
-      <p>Ваш універсальний магазин для всіх найновіших товарів!</p>
-      <a routerLink="/shop" class="btn">Почати покупки</a>
-    </header>
+  <header class="site-header">
+    <!-- Логотип -->
+    <div class="logo">
+      <a routerLink="/">
+        <img src="assets/images/logo.png" alt="Логотип магазину">
+      </a>
+    </div>
   
-    <!-- Секція акцій (слайдер) -->
-    <section class="promo-section">
-      <h2>Спеціальні пропозиції</h2>
-      <div class="promo-slider">
-        <div class="promo-slide">
-          <img src="assets/images/sale1.jpg" alt="Акція 1">
-          <p>50% ЗНИЖКА на всі електронні товари</p>
-        </div>
-        <div class="promo-slide">
-          <img src="assets/images/sale2.jpg" alt="Акція 2">
-          <p>Купи 1, отримай 1 безкоштовно на вибраний одяг</p>
-        </div>
-        <div class="promo-slide">
-          <img src="assets/images/sale3.jpg" alt="Акція 3">
-          <p>Безкоштовна доставка на замовлення від 1500 грн</p>
-        </div>
-      </div>
-    </section>
+    <!-- Поле пошуку -->
+    <div class="search-bar">
+      <input type="text" placeholder="Шукати товари..." aria-label="Поле пошуку">
+      <button type="button">
+        <img src="assets/icons/search-icon.svg" alt="Пошук">
+      </button>
+    </div>
   
-    <!-- Секція категорій товарів -->
-    <section class="categories">
-      <h2>Покупки за категоріями</h2>
-      <div class="category-list">
-        <div class="category-item">
-          <img src="assets/images/electronics.jpg" alt="Електроніка">
-          <h3>Електроніка</h3>
-          <a routerLink="/shop/electronics" class="btn">Переглянути</a>
-        </div>
-        <div class="category-item">
-          <img src="assets/images/category-clothing.jpg" alt="Одяг">
-          <h3>Одяг</h3>
-          <a routerLink="/shop/clothing" class="btn">Переглянути</a>
-        </div>
-        <div class="category-item">
-          <img src="assets/images/category-home.jpg" alt="Дім та кухня">
-          <h3>Дім та кухня</h3>
-          <a routerLink="/shop/home-kitchen" class="btn">Переглянути</a>
-        </div>
-      </div>
-    </section>
+    <!-- Профіль -->
+    <div class="profile">
+      <a routerLink="/profile">
+        <img src="assets/images/user.jpg" alt="Профіль">
+      </a>
+    </div>
+  </header>
   
-    <!-- Популярні товари -->
-    <section class="popular-products">
-      <h2>Популярні товари</h2>
-      <div class="product-list">
-        <div class="product-item">
-          <img src="assets/images/product1.jpg" alt="Продукт 1">
-          <h3>Бездротові навушники</h3>
-          <p>1399 грн</p>
-          <a routerLink="/product/1" class="btn">Переглянути деталі</a>
-        </div>
-        <div class="product-item">
-          <img src="assets/images/product2.jpg" alt="Продукт 2">
-          <h3>Розумний годинник</h3>
-          <p>2599 грн</p>
-          <a routerLink="/product/2" class="btn">Переглянути деталі</a>
-        </div>
-        <div class="product-item">
-          <img src="assets/images/product3.jpg" alt="Продукт 3">
-          <h3>Шкіряна куртка</h3>
-          <p>3299 грн</p>
-          <a routerLink="/product/3" class="btn">Переглянути деталі</a>
-        </div>
-      </div>
-    </section>
+  <div class="categories">
+    <h1>Категорії товарів</h1>
+    <ul>
+      <!-- Виводимо категорії -->
+      <li *ngFor="let category of categories" class="category-item">
+        <h2>{{ category.name }}</h2>
+        <p>{{ category.description }}</p>
   
-    <!-- Секція з відгуками клієнтів -->
-    <section class="customer-reviews">
-      <h2>Що кажуть наші клієнти</h2>
-      <div class="review-list">
-        <div class="review-item">
-          <p>"Неймовірна якість товарів та чудове обслуговування!"</p>
-          <p>- Джейн Д.</p>
-        </div>
-        <div class="review-item">
-          <p>"Мені дуже подобається різноманіття товарів. Рекомендую!"</p>
-          <p>- Джон С.</p>
-        </div>
-      </div>
-    </section>
+        <!-- Виводимо підкатегорії для цієї категорії -->
+        <div class="subcategories">
+          <h3>Підкатегорії:</h3>
+          <ul>
+            <li *ngFor="let subcategory of getSubcategories(category.id)" class="subcategory-item">
+              <h4>{{ subcategory.name }}</h4>
   
-    <!-- Підписка на новини -->
-    <section class="newsletter">
-      <h2>Будьте в курсі</h2>
-      <p>Підпишіться на нашу розсилку, щоб отримувати останні новини, пропозиції та ексклюзивні знижки!</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Введіть ваш email" required>
-        <button type="submit" class="btn">Підписатися</button>
-      </form>
-    </section>
-  
+              <!-- Виводимо товари для цієї підкатегорії -->
+              <div class="products">
+                <h5>Товари:</h5>
+                <ul>
+                  <li *ngFor="let product of getProducts(subcategory.id)" class="product-item">
+                    <span class="product-name">{{ product.name }}</span>
+                    <span class="product-price">{{ product.price }} ₴</span>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
   </div>
   
