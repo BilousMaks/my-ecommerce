@@ -15,13 +15,13 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/categories`);
   }
 
-  // Отримати всі підкатегорії
-  getSubcategories(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/subcategories`);
+  // Отримати всі підкатегорії для конкретної категорії
+  getSubcategories(categoryId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/subcategories/${categoryId}`);
   }
 
-  // Отримати всі продукти
-  getProducts(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/products`);
+  // Отримати всі продукти для конкретної підкатегорії
+  getProducts(subcategoryId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/products/${subcategoryId}`);
   }
 }

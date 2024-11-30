@@ -25,23 +25,26 @@
     </div>
   </header>
   
+  <!-- Секція категорій -->
   <div class="categories">
     <h1>Категорії товарів</h1>
     <ul>
       <!-- Виводимо категорії -->
-      <li *ngFor="let category of categories" class="category-item">
+      <li *ngFor="let category of categories" class="category-item" (click)="onCategoryChange(category.id)">
         <h2>{{ category.name }}</h2>
         <p>{{ category.description }}</p>
   
         <!-- Виводимо підкатегорії для цієї категорії -->
-        <div class="subcategories">
+        <div class="subcategories" *ngIf="category.id === selectedCategoryId">
           <h3>Підкатегорії:</h3>
           <ul>
-            <li *ngFor="let subcategory of getSubcategories(category.id)" class="subcategory-item">
+            <li *ngFor="let subcategory of getSubcategories(category.id)" 
+                class="subcategory-item" 
+                (click)="onSubcategoryChange(subcategory.id)">
               <h4>{{ subcategory.name }}</h4>
   
               <!-- Виводимо товари для цієї підкатегорії -->
-              <div class="products">
+              <div class="products" *ngIf="subcategory.id === selectedSubcategoryId">
                 <h5>Товари:</h5>
                 <ul>
                   <li *ngFor="let product of getProducts(subcategory.id)" class="product-item">
@@ -56,4 +59,5 @@
       </li>
     </ul>
   </div>
-  
+
+</div>
