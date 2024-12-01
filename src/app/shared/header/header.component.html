@@ -1,0 +1,23 @@
+<header class="site-header">
+    <!-- Логотип -->
+    <div class="logo">
+      <a [routerLink]="['/']" routerLinkActive="active">
+        <img src="assets/images/logo.png" alt="Логотип магазину">
+      </a>
+    </div>
+  
+    <!-- Поле пошуку -->
+    <div class="search-bar">
+      <input type="text" placeholder="Шукати товари..." aria-label="Поле пошуку">
+      <button type="button">
+        <img src="assets/icons/search-icon.svg" alt="Пошук">
+      </button>
+    </div>
+  
+    <!-- Профіль -->
+    <div class="profile">
+      <a routerLink="/profile">
+        <img src="assets/images/user.jpg" alt="Профіль">
+      </a>
+    </div>
+  </header>

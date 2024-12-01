@@ -1,30 +1,5 @@
 <!-- Головний контейнер сторінки -->
 <div class="home-container">
-
-  <header class="site-header">
-    <!-- Логотип -->
-    <div class="logo">
-      <a routerLink="/">
-        <img src="assets/images/logo.png" alt="Логотип магазину">
-      </a>
-    </div>
-  
-    <!-- Поле пошуку -->
-    <div class="search-bar">
-      <input type="text" placeholder="Шукати товари..." aria-label="Поле пошуку">
-      <button type="button">
-        <img src="assets/icons/search-icon.svg" alt="Пошук">
-      </button>
-    </div>
-  
-    <!-- Профіль -->
-    <div class="profile">
-      <a routerLink="/profile">
-        <img src="assets/images/user.jpg" alt="Профіль">
-      </a>
-    </div>
-  </header>
-  
   <!-- Секція категорій -->
   <div class="categories">
     <h1>Категорії товарів</h1>
@@ -35,24 +10,13 @@
         <p>{{ category.description }}</p>
   
         <!-- Виводимо підкатегорії для цієї категорії -->
-        <div class="subcategories" *ngIf="category.id === selectedCategoryId">
+        <div class="subcategories">
           <h3>Підкатегорії:</h3>
           <ul>
-            <li *ngFor="let subcategory of getSubcategories(category.id)" 
-                class="subcategory-item" 
-                (click)="onSubcategoryChange(subcategory.id)">
-              <h4>{{ subcategory.name }}</h4>
-  
-              <!-- Виводимо товари для цієї підкатегорії -->
-              <div class="products" *ngIf="subcategory.id === selectedSubcategoryId">
-                <h5>Товари:</h5>
-                <ul>
-                  <li *ngFor="let product of getProducts(subcategory.id)" class="product-item">
-                    <span class="product-name">{{ product.name }}</span>
-                    <span class="product-price">{{ product.price }} ₴</span>
-                  </li>
-                </ul>
-              </div>
+            <li *ngFor="let subcategory of getSubcategories(category.id)" class="subcategory-item">
+              <a [routerLink]="['/products', subcategory.id]">
+                {{ subcategory.name }}
+              </a>
             </li>
           </ul>
         </div>

@@ -1,0 +1,13 @@
+<div class="products-page">
+    <h1>Товари підкатегорії</h1>
+    <ul>
+      <li *ngFor="let product of products" class="product-item">
+        <div class="product-details">
+          <h2>{{ product.name }}</h2>
+          <p>Ціна: {{ product.price }} ₴</p>
+          <p>Опис: {{ product.description }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  

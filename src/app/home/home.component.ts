@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],  // Додаємо CommonModule до імпортів
+  imports: [CommonModule, RouterModule],  // Додаємо CommonModule та RouterModule до імпортів
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
