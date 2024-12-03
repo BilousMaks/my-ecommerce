@@ -24,4 +24,10 @@ export class ApiService {
   getProducts(subcategoryId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/products/${subcategoryId}`);
   }
+  registerUser(userData: { username: string; email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.baseUrl}/register`, userData);
+  }
+  checkEmail(email: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/check-email/${email}`);
+  }
 }

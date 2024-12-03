@@ -1,0 +1,28 @@
+<div class="login-container">
+  <div class="login-form">
+    <h2>Авторизація</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="email">Електронна пошта</label>
+        <input id="email" formControlName="email" type="email" placeholder="Введіть електронну пошту" />
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
+          Введіть коректну електронну пошту
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input id="password" formControlName="password" type="password" placeholder="Введіть пароль" />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+          Пароль обов'язковий
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">Увійти</button>
+    </form>
+    <p class="register-link">
+      Не маєте облікового запису? 
+      <a routerLink="/register"> Реєстрація</a>.
+    </p>
+  </div>
+</div>

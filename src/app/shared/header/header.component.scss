@@ -52,6 +52,20 @@
     .profile {
       display: flex;
       align-items: center;
+      gap: 10px;
+
+      .logout-button {
+        background-color: transparent;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    
+        &:hover {
+          background-color: #f5f5f5;
+        }
+      }
   
       a {
         display: flex;
@@ -67,5 +81,9 @@
 
   a.active {
     text-decoration: underline; /* Приклад стилю */
+  }
+  
+  .profile a {
+    cursor: pointer;  // Додаємо стиль для зміни курсора на pointer
   }
   

@@ -16,8 +16,14 @@
   
     <!-- Профіль -->
     <div class="profile">
-      <a routerLink="/profile">
-        <img src="assets/images/user.jpg" alt="Профіль">
-      </a>
-    </div>
+      <ng-container *ngIf="isUserLoggedIn; else notLoggedIn">
+        <span>Вітаємо, {{ user.email }}</span>
+        <button (click)="logout()">Вийти</button>
+      </ng-container>
+      <ng-template #notLoggedIn>
+        <a [routerLink]="['/login']">
+          <img src="assets/images/user.jpg" alt="Профіль">
+        </a>
+      </ng-template>
+    </div>    
   </header>
