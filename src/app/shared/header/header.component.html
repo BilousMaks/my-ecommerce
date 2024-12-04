@@ -17,13 +17,14 @@
   <!-- Профіль -->
   <div class="profile">
     <ng-container *ngIf="isUserLoggedIn; else notLoggedIn">
-      <span>Вітаємо, {{ user.username }}</span> <!-- Виводимо username користувача -->
-      <button (click)="logout()">Вийти</button>
-    </ng-container>
-    <ng-template #notLoggedIn>
-      <a [routerLink]="['/login']">
+      <!-- Авторизований користувач -->
+      <a [routerLink]="['/profile']">
         <img src="assets/images/user.jpg" alt="Профіль">
       </a>
+    </ng-container>
+    <!-- Неавторизований користувач -->
+    <ng-template #notLoggedIn>
+      <button (click)="onLoginClick()">Ввійти</button>
     </ng-template>
   </div>
 </header>

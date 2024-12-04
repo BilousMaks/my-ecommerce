@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common'; // Додано CommonModule для підтримки *ngIf
+import { CommonModule } from '@angular/common'; 
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -12,35 +12,25 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isUserLoggedIn = false;
-  user: any = null; // Змінна для зберігання користувача
 
   constructor(private router: Router) {}
 
   ngOnInit() {
+    // Перевіряємо, чи є користувач авторизованим
     const userEmail = localStorage.getItem('userEmail');
     this.isUserLoggedIn = !!userEmail;
-    if (this.isUserLoggedIn) {
-      // Отримуємо дані користувача з localStorage
-      this.user = JSON.parse(localStorage.getItem('user') || '{}');
-    }
   }
 
-  onProfileClick() {
-    if (this.isUserLoggedIn) {
-      this.router.navigate(['/profile']); // Перенаправляємо на сторінку профілю
-    } else {
-      this.router.navigate(['/login']); // Перенаправляємо на сторінку реєстрації
-    }
+  onLoginClick() {
+    // Перенаправлення на сторінку входу
+    this.router.navigate(['/login']);
   }
 
   logout() {
-    // Видаляємо інформацію про користувача з localStorage
+    // Видаляємо інформацію про користувача
     localStorage.removeItem('userEmail');
-    localStorage.removeItem('user'); // Видаляємо дані користувача
+    localStorage.removeItem('user');
     this.isUserLoggedIn = false;
-    this.user = null; // Оновлюємо значення користувача
-
-    // Перенаправляємо на головну сторінку
     this.router.navigate(['/']);
   }
 }
