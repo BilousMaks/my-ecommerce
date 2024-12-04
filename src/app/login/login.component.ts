@@ -25,9 +25,10 @@ export class LoginComponent {
   onLogin(): void {
     const { email, password } = this.loginForm.value;
 
-    this.http.post('http://localhost:3000/api/login', { email, password }).subscribe({
+    this.http.post('http://localhost:3000/login', { email, password }).subscribe({
       next: (response: any) => {
         localStorage.setItem('token', response.token);
+        localStorage.setItem('userEmail', email);
         this.router.navigate(['/profile']);
       },
       error: () => {

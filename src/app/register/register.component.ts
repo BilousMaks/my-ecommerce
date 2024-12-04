@@ -26,19 +26,22 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      console.log('Відправляємо дані реєстрації:', this.registerForm.value);
+  
       this.apiService.registerUser(this.registerForm.value).subscribe({
         next: (response) => {
+          console.log('Успішна відповідь сервера:', response);
           this.message = response.message;
-          
-          // Збереження даних користувача в localStorage
+  
           localStorage.setItem('user', JSON.stringify({
             username: this.registerForm.value.username,
-            email: this.registerForm.value.email
+            email: this.registerForm.value.email,
           }));
-          
+  
           setTimeout(() => this.router.navigate(['/profile']), 2000);
         },
         error: (err) => {
+          console.error('Помилка реєстрації:', err);
           this.message = err.error.message || 'Помилка реєстрації';
         },
       });

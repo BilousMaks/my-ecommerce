@@ -107,40 +107,47 @@ app.post('/register', async (req, res) => {
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).send({ message: 'Всі поля обов’язкові!' });
-  }
-
-  const query = 'SELECT * FROM users WHERE email = ?';
-  db.query(query, [email], (err, results) => {
-    if (err) {
-      console.error('Помилка виконання запиту:', err);
-      return res.status(500).send({ message: 'Помилка сервера' });
+  // Шукаємо користувача в базі даних за email
+  db.query('SELECT * FROM users WHERE email = ?', [email], (err, result) => {
+    if (err) return res.status(500).send('Server error');
+    
+    if (result.length === 0) {
+      return res.status(400).send('Невірний email або пароль');
     }
-
-    if (results.length === 0) {
-      return res.status(401).send({ message: 'Неправильний email або пароль' });
-    }
-
-    const user = results[0];
-
+    
+    const user = result[0];
+    
+    // Перевіряємо пароль
     bcrypt.compare(password, user.password, (err, isMatch) => {
-      if (err) {
-        console.error('Помилка перевірки пароля:', err);
-        return res.status(500).send({ message: 'Помилка сервера' });
-      }
-
+      if (err) return res.status(500).send('Server error');
       if (!isMatch) {
-        return res.status(401).send({ message: 'Неправильний email або пароль' });
+        return res.status(400).send('Невірний email або пароль');
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
-
-      res.send({ message: 'Вхід успішний', token });
+      // Якщо пароль вірний, генеруємо токен (наприклад, JWT)
+      const token = jwt.sign({ id: user.id, email: user.email }, 'your_secret_key');
+      res.json({ token });
     });
   });
 });
+// Маршрут для отримання профілю користувача
+app.get('/profile/:email', (req, res) => {
+  const { email } = req.params;
+  const query = 'SELECT * FROM users WHERE email = ?';
+  
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      console.error('Помилка виконання запиту:', err);
+      return res.status(500).send('Помилка сервера');
+    }
 
+    if (results.length === 0) {
+      return res.status(404).send('Користувача не знайдено');
+    }
+
+    res.json(results[0]); // Відправляємо знайденого користувача
+  });
+});
 // Запуск сервера
 app.listen(PORT, () => {
   console.log(`Сервер запущено на http://localhost:${PORT}`);

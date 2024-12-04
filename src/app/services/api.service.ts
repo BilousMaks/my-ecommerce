@@ -30,4 +30,7 @@ export class ApiService {
   checkEmail(email: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/check-email/${email}`);
   }
+  getProfile(email: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/profile/${email}`);
+  }
 }
