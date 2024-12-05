@@ -35,4 +35,13 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
+    // Метод для виходу з акаунту
+    logout() {
+      // Очищення даних користувача з localStorage
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('user');
+      
+      // Перенаправлення на сторінку входу
+      this.router.navigate(['/login']);
+    }
 }
