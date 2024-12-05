@@ -33,4 +33,9 @@ export class ApiService {
   getProfile(email: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/profile/${email}`);
   }
+  getProductById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/product/${id}`);
+  }
+  
+  
 }

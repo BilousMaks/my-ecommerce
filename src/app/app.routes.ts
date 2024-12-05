@@ -5,11 +5,13 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component'
 import { AuthGuard } from './auth.guard'; // Імпорт Guard
 import { LoginComponent } from './login/login.component';
+import { MerchandiseComponent } from './merchandise/merchandise.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Головна сторінка
   { path: 'products/:subcategoryId', component: ProductsComponent }, // Динамічний маршрут
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent },
-  { path: 'login', component: LoginComponent }, 
+  { path: 'login', component: LoginComponent },
+  { path: 'merchandise/:id', component: MerchandiseComponent } 
 ];

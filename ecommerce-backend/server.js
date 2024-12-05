@@ -148,6 +148,21 @@ app.get('/profile/:email', (req, res) => {
     res.json(results[0]); // Відправляємо знайденого користувача
   });
 });
+
+// Маршрут для отримання деталей товару
+app.get('/product/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM products WHERE id = ?';
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Помилка виконання запиту:', err);
+      res.status(500).send('Помилка сервера');
+    } else {
+      res.json(result[0]);
+    }
+  });
+});
+
 // Запуск сервера
 app.listen(PORT, () => {
   console.log(`Сервер запущено на http://localhost:${PORT}`);

@@ -1,0 +1,9 @@
+<div *ngIf="product; else loading">
+    <h1>{{ product.name }}</h1>
+    <p>Ціна: {{ product.price }} ₴</p>
+    <p>Опис: {{ product.description }}</p>
+  </div>
+  <ng-template #loading>
+    <p>Завантаження...</p>
+  </ng-template>
+  
