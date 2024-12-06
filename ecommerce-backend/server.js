@@ -126,7 +126,7 @@ app.post('/login', (req, res) => {
 
       // Якщо пароль вірний, генеруємо токен (наприклад, JWT)
       const token = jwt.sign({ id: user.id, email: user.email }, 'your_secret_key');
-      res.json({ token });
+      res.json({ token, userId: user.id });
     });
   });
 });
@@ -179,18 +179,14 @@ app.get('/recommendations/:userId', (req, res) => {
   db.query(interactionQuery, [userId], (err, recentProducts) => {
     if (err) {
       console.error('Помилка запиту до бази даних:', err);
-      return res.status(500).send('Помилка сервера');
-    }
-
-    if (recentProducts.length === 0) {
-      // Якщо немає даних, повертаємо випадкові товари
+      // Якщо сталася помилка, повертаємо 5 випадкових товарів
       const fallbackQuery = 'SELECT * FROM products LIMIT 5';
-      db.query(fallbackQuery, (err, products) => {
-        if (err) {
-          console.error('Помилка запиту до бази даних:', err);
-          return res.status(500).send('Помилка сервера');
+      db.query(fallbackQuery, (fallbackErr, products) => {
+        if (fallbackErr) {
+          console.error('Помилка з fallback запитом:', fallbackErr);
+          return res.status(500).send('Помилка сервера, і у fallback також');
         }
-        return res.json(products);
+        return res.json(products); // Відправляємо 5 товарів
       });
     } else {
       // Генерація рекомендацій на основі схожих категорій
@@ -204,9 +200,18 @@ app.get('/recommendations/:userId', (req, res) => {
       db.query(recommendationQuery, (err, recommendations) => {
         if (err) {
           console.error('Помилка запиту до бази даних:', err);
-          return res.status(500).send('Помилка сервера');
+          // Якщо сталася помилка під час отримання рекомендацій, повертаємо 5 випадкових товарів
+          const fallbackQuery = 'SELECT * FROM products LIMIT 5';
+          db.query(fallbackQuery, (fallbackErr, products) => {
+            if (fallbackErr) {
+              console.error('Помилка з fallback запитом:', fallbackErr);
+              return res.status(500).send('Помилка сервера, і у fallback також');
+            }
+            return res.json(products); // Відправляємо 5 товарів
+          });
+        } else {
+          res.json(recommendations);
         }
-        res.json(recommendations);
       });
     }
   });
@@ -222,9 +227,10 @@ app.post('/user-interaction', (req, res) => {
   db.query(query, [userId, productId, interactionType], (err) => {
     if (err) {
       console.error('Помилка додавання взаємодії:', err);
-      return res.status(500).send('Помилка сервера');
+      return res.status(500).json({ message: 'Помилка сервера' });
     }
-    res.send('Взаємодію збережено');
+    // Відправити правильну відповідь
+    res.status(200).json({ message: 'Взаємодію збережено' });
   });
 });
 

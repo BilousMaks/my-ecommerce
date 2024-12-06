@@ -25,16 +25,21 @@ export class MerchandiseComponent implements OnInit {
           this.product = data;
 
           // Логування взаємодії користувача з товаром (перегляд)
-          const userId = localStorage.getItem('userId'); // Замість цього використовуйте справжній ID користувача
+          const userId = localStorage.getItem('userId'); // Перевіряємо чи є userId в localStorage
+
           if (userId) {
+            // Якщо є userId, то логування взаємодії
             this.apiService.logUserInteraction(userId, productId, 'view').subscribe({
               next: () => console.log('Взаємодія з товаром збережена'),
               error: (err) => console.error('Помилка збереження взаємодії:', err),
             });
+          } else {
+            console.log('Користувач не авторизований, взаємодія не збережена');
           }
         },
         error: (err) => console.error('Помилка завантаження товару:', err),
       });
     }
-  }
+}
+
 }
