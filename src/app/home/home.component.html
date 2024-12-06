@@ -1,5 +1,19 @@
 <!-- Головний контейнер сторінки -->
 <div class="home-container">
+  <!-- Секція рекомендацій -->
+  <div class="recommendations">
+    <h2>Рекомендовані товари для вас</h2>
+    <div *ngIf="recommendedProducts?.length; else noRecommendations" class="products-list">
+      <div *ngFor="let product of recommendedProducts" class="product-card">
+        <h3>{{ product.name }}</h3>
+        <p>Ціна: {{ product.price }} ₴</p>
+        <button [routerLink]="['/merchandise', product.id]">Детальніше</button>
+      </div>
+    </div>
+    <ng-template #noRecommendations>
+      <p>Поки немає рекомендацій. Ознайомтеся з товарами, щоб отримати персоналізовані пропозиції.</p>
+    </ng-template>
+  </div>
   <!-- Секція категорій -->
   <div class="categories">
     <h1>Категорії товарів</h1>

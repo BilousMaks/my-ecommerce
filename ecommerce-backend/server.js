@@ -163,6 +163,72 @@ app.get('/product/:id', (req, res) => {
   });
 });
 
+app.get('/recommendations/:userId', (req, res) => {
+  const { userId } = req.params;
+
+  // Отримати останні взаємодії користувача
+  const interactionQuery = `
+    SELECT p.* 
+    FROM user_behavior ub
+    JOIN products p ON ub.product_id = p.id
+    WHERE ub.user_id = ?
+    ORDER BY ub.interaction_time DESC
+    LIMIT 5
+  `;
+
+  db.query(interactionQuery, [userId], (err, recentProducts) => {
+    if (err) {
+      console.error('Помилка запиту до бази даних:', err);
+      return res.status(500).send('Помилка сервера');
+    }
+
+    if (recentProducts.length === 0) {
+      // Якщо немає даних, повертаємо випадкові товари
+      const fallbackQuery = 'SELECT * FROM products LIMIT 5';
+      db.query(fallbackQuery, (err, products) => {
+        if (err) {
+          console.error('Помилка запиту до бази даних:', err);
+          return res.status(500).send('Помилка сервера');
+        }
+        return res.json(products);
+      });
+    } else {
+      // Генерація рекомендацій на основі схожих категорій
+      const categories = recentProducts.map((p) => p.category_id).join(',');
+      const recommendationQuery = `
+        SELECT * FROM products
+        WHERE category_id IN (${categories}) AND id NOT IN (${recentProducts.map((p) => p.id).join(',')})
+        LIMIT 5
+      `;
+
+      db.query(recommendationQuery, (err, recommendations) => {
+        if (err) {
+          console.error('Помилка запиту до бази даних:', err);
+          return res.status(500).send('Помилка сервера');
+        }
+        res.json(recommendations);
+      });
+    }
+  });
+});
+
+app.post('/user-interaction', (req, res) => {
+  const { userId, productId, interactionType } = req.body;
+
+  const query = `
+    INSERT INTO user_behavior (user_id, product_id, interaction_type)
+    VALUES (?, ?, ?)
+  `;
+  db.query(query, [userId, productId, interactionType], (err) => {
+    if (err) {
+      console.error('Помилка додавання взаємодії:', err);
+      return res.status(500).send('Помилка сервера');
+    }
+    res.send('Взаємодію збережено');
+  });
+});
+
+
 // Запуск сервера
 app.listen(PORT, () => {
   console.log(`Сервер запущено на http://localhost:${PORT}`);

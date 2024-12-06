@@ -29,7 +29,9 @@ export class LoginComponent {
       next: (response: any) => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('userEmail', email);
+        localStorage.setItem('userId', response.userId);
         this.router.navigate(['/profile']);
+
       },
       error: () => {
         alert('Неправильний email або пароль');

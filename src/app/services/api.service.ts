@@ -36,6 +36,13 @@ export class ApiService {
   getProductById(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/product/${id}`);
   }
-  
+
+  getRecommendations(userId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/recommendations/${userId}`);
+  }
+
+  logUserInteraction(userId: string, productId: string, interactionType: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/user-interaction`, { userId, productId, interactionType });
+  }
   
 }
