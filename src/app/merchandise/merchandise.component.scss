@@ -1,0 +1,46 @@
+/* merchandise.component.scss */
+
+/* Загальний стиль сторінки */
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  /* Стиль для контейнера товару */
+  .product-container {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #555;
+  }
+  
+  p:first-of-type {
+    font-weight: bold;
+    color: #222;
+  }
+  
+  .loading {
+    font-size: 1.2em;
+    color: #888;
+    text-align: center;
+  }
+  

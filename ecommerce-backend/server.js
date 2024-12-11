@@ -177,45 +177,56 @@ app.get('/recommendations/:userId', (req, res) => {
   `;
 
   db.query(interactionQuery, [userId], (err, recentProducts) => {
-    if (err) {
-      console.error('Помилка запиту до бази даних:', err);
-      // Якщо сталася помилка, повертаємо 5 випадкових товарів
-      const fallbackQuery = 'SELECT * FROM products LIMIT 5';
-      db.query(fallbackQuery, (fallbackErr, products) => {
-        if (fallbackErr) {
-          console.error('Помилка з fallback запитом:', fallbackErr);
-          return res.status(500).send('Помилка сервера, і у fallback також');
-        }
-        return res.json(products); // Відправляємо 5 товарів
-      });
-    } else {
-      // Генерація рекомендацій на основі схожих категорій
-      const categories = recentProducts.map((p) => p.category_id).join(',');
-      const recommendationQuery = `
-        SELECT * FROM products
-        WHERE category_id IN (${categories}) AND id NOT IN (${recentProducts.map((p) => p.id).join(',')})
-        LIMIT 5
-      `;
-
-      db.query(recommendationQuery, (err, recommendations) => {
-        if (err) {
-          console.error('Помилка запиту до бази даних:', err);
-          // Якщо сталася помилка під час отримання рекомендацій, повертаємо 5 випадкових товарів
-          const fallbackQuery = 'SELECT * FROM products LIMIT 5';
-          db.query(fallbackQuery, (fallbackErr, products) => {
-            if (fallbackErr) {
-              console.error('Помилка з fallback запитом:', fallbackErr);
-              return res.status(500).send('Помилка сервера, і у fallback також');
-            }
-            return res.json(products); // Відправляємо 5 товарів
-          });
-        } else {
-          res.json(recommendations);
-        }
-      });
+    if (err || recentProducts.length === 0) {
+      console.log('Помилка або немає взаємодій. Використовується fallback.');
+      return fallbackRecommendations(res);
     }
+
+    // Генерація рекомендацій на основі підкатегорій
+    const subcategoryIds = recentProducts
+      .map((p) => p.subcategory_id)
+      .filter((id) => id !== null); // Виключення порожніх значень
+
+    if (subcategoryIds.length === 0) {
+      console.log('Підкатегорії продуктів порожні. Використовується fallback.');
+      return fallbackRecommendations(res);
+    }
+
+    const recommendationQuery = `
+      SELECT * FROM products
+      WHERE subcategory_id IN (?)
+      AND id NOT IN (?)
+      LIMIT 5
+    `;
+
+    const excludedProductIds = recentProducts.map((p) => p.id);
+
+    db.query(
+      recommendationQuery,
+      [subcategoryIds, excludedProductIds],
+      (err, recommendations) => {
+        if (err || recommendations.length === 0) {
+          console.log('Рекомендацій немає. Використовується fallback.');
+          return fallbackRecommendations(res);
+        }
+        res.json(recommendations);
+      }
+    );
   });
+
+  function fallbackRecommendations(res) {
+    const fallbackQuery = 'SELECT * FROM products ORDER BY RAND() LIMIT 5';
+    db.query(fallbackQuery, (err, products) => {
+      if (err) {
+        console.error('Помилка fallback-запиту:', err);
+        return res.status(500).send('Помилка сервера');
+      }
+      res.json(products);
+    });
+  }
 });
+
+
 
 app.post('/user-interaction', (req, res) => {
   const { userId, productId, interactionType } = req.body;
